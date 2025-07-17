@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Transitions
 {
@@ -9,67 +10,62 @@ namespace Transitions
     /// </summary>
     public class FadeController
     {
-        public IEnumerator FadeOut(UnityEngine.UI.Image image, float duration = 1f)
+        /// <summary>
+        /// Fades out a UI Image over the specified duration.
+        /// </summary>
+        public IEnumerator FadeOut(Image image, float duration = 1f)
         {
-            float elapsedTime = 0f;
-            Color startColor = image.color;
-            Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
-
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                image.color = Color.Lerp(startColor, endColor, elapsedTime / duration);
-                yield return null;
-            }
-
-            image.color = endColor;
+            yield return FadeImage(image, image.color.a, 0f, duration);
         }
 
-        public IEnumerator FadeIn(UnityEngine.UI.Image image, float duration = 1f)
+        /// <summary>
+        /// Fades in a UI Image over the specified duration.
+        /// </summary>
+        public IEnumerator FadeIn(Image image, float duration = 1f)
         {
-            float elapsedTime = 0f;
-            Color startColor = image.color;
-            Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
-
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                image.color = Color.Lerp(startColor, endColor, elapsedTime / duration);
-                yield return null;
-            }
-
-            image.color = endColor;
+            yield return FadeImage(image, image.color.a, 1f, duration);
         }
 
+        /// <summary>
+        /// Fades out a CanvasGroup over the specified duration.
+        /// </summary>
         public IEnumerator FadeOut(CanvasGroup canvasGroup, float duration = 1f)
         {
-            float elapsedTime = 0f;
-            float startAlpha = canvasGroup.alpha;
-            float endAlpha = 0f;
-
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
-                yield return null;
-            }
-
-            canvasGroup.alpha = endAlpha;
+            yield return FadeCanvasGroup(canvasGroup, canvasGroup.alpha, 0f, duration);
         }
 
+        /// <summary>
+        /// Fades in a CanvasGroup over the specified duration.
+        /// </summary>
         public IEnumerator FadeIn(CanvasGroup canvasGroup, float duration = 1f)
         {
-            float elapsedTime = 0f;
-            float startAlpha = canvasGroup.alpha;
-            float endAlpha = 1f;
+            yield return FadeCanvasGroup(canvasGroup, canvasGroup.alpha, 1f, duration);
+        }
 
+        private IEnumerator FadeImage(Image image, float startAlpha, float endAlpha, float duration)
+        {
+            float elapsedTime = 0f;
+            Color startColor = image.color;
+            Color endColor = new Color(startColor.r, startColor.g, startColor.b, endAlpha);
+
+            while (elapsedTime < duration)
+            {
+                elapsedTime += Time.deltaTime;
+                image.color = Color.Lerp(startColor, endColor, elapsedTime / duration);
+                yield return null;
+            }
+            image.color = endColor;
+        }
+
+        private IEnumerator FadeCanvasGroup(CanvasGroup canvasGroup, float startAlpha, float endAlpha, float duration)
+        {
+            float elapsedTime = 0f;
             while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;
                 canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
                 yield return null;
             }
-
             canvasGroup.alpha = endAlpha;
         }
     }
