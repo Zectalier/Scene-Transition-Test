@@ -106,15 +106,6 @@ namespace Transitions
                 yield return null;
             }
 
-            if (selectedTransition.needsFade && transitionCanvasGroup != null)
-            {
-                transitionCanvasGroup.alpha = 0f; // Ensure the canvas group starts fully transparent for fading in
-            }
-            else
-            {
-                transitionCanvasGroup.alpha = 1f;
-            }
-
             SetupCanvasGroup(selectedTransition);
 
             if (loadingAnimation != null)
