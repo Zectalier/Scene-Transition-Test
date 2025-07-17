@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utils
+namespace Transitions
 {
     /// <summary>
     /// FadeController Utility for managing fade effects for images in Unity.

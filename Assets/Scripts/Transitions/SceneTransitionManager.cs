@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Managers
+namespace Transitions
 {
     [System.Serializable]
     public struct TransitionConfig
@@ -31,6 +31,8 @@ namespace Managers
 
         // Singleton instance
         public static SceneTransitionManager Instance { get; private set; }
+
+        public GameObject loadingAnimation;
 
         private bool isTransitioning = false;
         private bool canLoadNextScene = false;
@@ -77,7 +79,7 @@ namespace Managers
             // Start fade out effect (since we want to make the black screen appear, we fade in the fadeImage)
             if (fadeImage != null)
             {
-                yield return StartCoroutine(new Utils.FadeController().FadeIn(fadeImage, selectedTransition.fadeOutDuration));
+                yield return StartCoroutine(new FadeController().FadeIn(fadeImage, selectedTransition.fadeOutDuration));
             }
 
             AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
@@ -86,6 +88,11 @@ namespace Managers
             // Simulating a loading delay
             if (Random.value < 0.33f)
             {
+                // Show loading animation if it exists
+                if (loadingAnimation != null)
+                {
+                    loadingAnimation.SetActive(true);
+                }
                 yield return new WaitForSeconds(3f);
             }
 
@@ -104,12 +111,17 @@ namespace Managers
                 transitionCanvasGroup.alpha = 1f;
             }
 
+            if (loadingAnimation != null)
+            {
+                loadingAnimation.SetActive(false); // Hide loading animation if it was shown
+            }
+
             transitionAnimator.SetInteger("TransitionIndex", selectedTransition.transitionIndex);
             transitionAnimator.SetTrigger("StartTransition");
 
             if (selectedTransition.needsFade && transitionCanvasGroup != null)
             {
-                yield return StartCoroutine(new Utils.FadeController().FadeIn(transitionCanvasGroup, selectedTransition.fadeInDuration));
+                yield return StartCoroutine(new FadeController().FadeIn(transitionCanvasGroup, selectedTransition.fadeInDuration));
             }
 
             // Wait for the transition animation to finish
@@ -130,13 +142,13 @@ namespace Managers
 
             if (selectedTransition.needsFade && transitionCanvasGroup != null)
             {
-                yield return StartCoroutine(new Utils.FadeController().FadeOut(transitionCanvasGroup, selectedTransition.fadeOutDuration));
+                yield return StartCoroutine(new FadeController().FadeOut(transitionCanvasGroup, selectedTransition.fadeOutDuration));
             }
 
             // Start fade out effect for the black screen (instantly start the transition)
             if (fadeImage != null)
             {
-                yield return StartCoroutine(new Utils.FadeController().FadeOut(fadeImage, selectedTransition.fadeInDuration));
+                yield return StartCoroutine(new FadeController().FadeOut(fadeImage, selectedTransition.fadeInDuration));
             }
 
             isTransitioning = false;

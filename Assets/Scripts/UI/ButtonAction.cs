@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Utils
+namespace UI
 {
     /// <summary>
     /// Handles button actions for scene transitions.
@@ -12,9 +12,9 @@ namespace Utils
         public void OnClick(string sceneName)
         {
             // Check if the SceneTransitionManager is available
-            if (Managers.SceneTransitionManager.Instance != null)
+            if (Transitions.SceneTransitionManager.Instance != null)
             {
-                Managers.SceneTransitionManager.Instance.StartSceneTransition(sceneName);
+                Transitions.SceneTransitionManager.Instance.StartSceneTransition(sceneName);
             }
             else
             {
