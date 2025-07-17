@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Transitions
@@ -34,6 +35,8 @@ namespace Transitions
 
         public GameObject loadingAnimation;
 
+        public TransitionSoundEvents TransitionSoundEvents;
+
         private bool isTransitioning = false;
         private bool canLoadNextScene = false;
 
@@ -59,6 +62,11 @@ namespace Transitions
                 return;
             }
             StartCoroutine(TransitionToScene(sceneName));
+        }
+
+        public void PlayTransitionSound()
+        {
+            TransitionSoundEvents?.PlayTransitionSound();
         }
 
         /// <summary>

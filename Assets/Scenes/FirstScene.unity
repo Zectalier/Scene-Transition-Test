@@ -688,11 +688,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &1695190855 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4217223052486302171, guid: 451af6410527f6d438b077a7cfdf18ed, type: 3}
-  m_PrefabInstance: {fileID: 3077146264065941754}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1817281478
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,10 +914,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5443814351197577945, guid: 451af6410527f6d438b077a7cfdf18ed, type: 3}
-      propertyPath: loadingAnimation
-      value: 
-      objectReference: {fileID: 1695190855}
     - target: {fileID: 6761023459004832610, guid: 451af6410527f6d438b077a7cfdf18ed, type: 3}
       propertyPath: m_Camera
       value: 
