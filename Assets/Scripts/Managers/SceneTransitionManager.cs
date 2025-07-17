@@ -72,7 +72,7 @@ namespace Managers
             isTransitioning = true;
 
             // Choose a random transition from the list
-            TransitionConfig selectedTransition = transitions[2];
+            TransitionConfig selectedTransition = transitions[Random.Range(0, transitions.Count)];
 
             // Start fade out effect (since we want to make the black screen appear, we fade in the fadeImage)
             if (fadeImage != null)
