@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -232,8 +232,9 @@ GameObject:
   - component: {fileID: 99717326}
   - component: {fileID: 99717325}
   - component: {fileID: 99717324}
+  - component: {fileID: 99717328}
   m_Layer: 5
-  m_Name: TransitionCanvas
+  m_Name: TransitionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,6 +323,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &99717328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99717323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d53d2cb6895604fa0d7146b028a46c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionAnimator: {fileID: 10943987}
+  numberOfTransitions: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +511,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1024985987}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 99717328}
+        m_TargetAssemblyTypeName: Managers.SceneTransitionManager, Assembly-CSharp
+        m_MethodName: StartSceneTransition
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SecondScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1024985987
 MonoBehaviour:
   m_ObjectHideFlags: 0
