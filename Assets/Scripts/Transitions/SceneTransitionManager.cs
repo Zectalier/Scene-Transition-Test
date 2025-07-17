@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Transitions
@@ -21,13 +20,13 @@ namespace Transitions
     {
         public Animator transitionAnimator;
 
-        // Number of transitions that can be performed, we choose a random one each time
+        [Header("Number of transitions that can be performed, we choose a random one each time")]
         public List<TransitionConfig> transitions = new List<TransitionConfig>();
 
-        // Fading Image, used to cover loading
+        [Header("Fading Image, used to cover loading")]
         public UnityEngine.UI.Image fadeImage;
 
-        // Canvas Group Transition, used for special fading effects (e.g. we need to fade the transition in and out)
+        [Header("Canvas Group Transition, used for special fading effects (e.g. we need to fade the transition in and out)")]
         public CanvasGroup transitionCanvasGroup;
 
         // Singleton instance
@@ -36,6 +35,8 @@ namespace Transitions
         public GameObject loadingAnimation;
 
         public TransitionSoundEvents TransitionSoundEvents;
+
+        private FadeController fadeController = new FadeController();
 
         private bool isTransitioning = false;
         private bool canLoadNextScene = false;
@@ -81,14 +82,10 @@ namespace Transitions
         {
             isTransitioning = true;
 
-            // Choose a random transition from the list
             TransitionConfig selectedTransition = transitions[Random.Range(0, transitions.Count)];
 
             // Start fade out effect (since we want to make the black screen appear, we fade in the fadeImage)
-            if (fadeImage != null)
-            {
-                yield return StartCoroutine(new FadeController().FadeIn(fadeImage, selectedTransition.fadeOutDuration));
-            }
+            yield return FadeImageIn(selectedTransition.fadeOutDuration);
 
             AsyncOperation asyncLoad = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName);
             asyncLoad.allowSceneActivation = false;
@@ -96,7 +93,6 @@ namespace Transitions
             // Simulating a loading delay
             if (Random.value < 0.33f)
             {
-                // Show loading animation if it exists
                 if (loadingAnimation != null)
                 {
                     loadingAnimation.SetActive(true);
@@ -119,18 +115,20 @@ namespace Transitions
                 transitionCanvasGroup.alpha = 1f;
             }
 
+            SetupCanvasGroup(selectedTransition);
+
             if (loadingAnimation != null)
             {
                 loadingAnimation.SetActive(false); // Hide loading animation if it was shown
             }
 
-            transitionAnimator.SetInteger("TransitionIndex", selectedTransition.transitionIndex);
-            transitionAnimator.SetTrigger("StartTransition");
-
-            if (selectedTransition.needsFade && transitionCanvasGroup != null)
+            if (transitionAnimator != null)
             {
-                yield return StartCoroutine(new FadeController().FadeIn(transitionCanvasGroup, selectedTransition.fadeInDuration));
+                transitionAnimator.SetInteger("TransitionIndex", selectedTransition.transitionIndex);
+                transitionAnimator.SetTrigger("StartTransition");
             }
+
+            yield return FadeCanvasGroupIn(selectedTransition);
 
             // Wait for the transition animation to finish
             while (!canLoadNextScene)
@@ -148,18 +146,41 @@ namespace Transitions
             }
 
 
-            if (selectedTransition.needsFade && transitionCanvasGroup != null)
-            {
-                yield return StartCoroutine(new FadeController().FadeOut(transitionCanvasGroup, selectedTransition.fadeOutDuration));
-            }
+            yield return FadeCanvasGroupOut(selectedTransition);
 
-            // Start fade out effect for the black screen (instantly start the transition)
-            if (fadeImage != null)
-            {
-                yield return StartCoroutine(new FadeController().FadeOut(fadeImage, selectedTransition.fadeInDuration));
-            }
+            yield return FadeImageOut(selectedTransition.fadeInDuration);
 
             isTransitioning = false;
+        }
+
+        private void SetupCanvasGroup(TransitionConfig config)
+        {
+            if (transitionCanvasGroup != null)
+                transitionCanvasGroup.alpha = config.needsFade ? 0f : 1f;
+        }
+
+        private IEnumerator FadeImageIn(float duration)
+        {
+            if (fadeImage != null)
+                yield return StartCoroutine(fadeController.FadeIn(fadeImage, duration));
+        }
+
+        private IEnumerator FadeImageOut(float duration)
+        {
+            if (fadeImage != null)
+                yield return StartCoroutine(fadeController.FadeOut(fadeImage, duration));
+        }
+
+        private IEnumerator FadeCanvasGroupIn(TransitionConfig config)
+        {
+            if (config.needsFade && transitionCanvasGroup != null)
+                yield return StartCoroutine(fadeController.FadeIn(transitionCanvasGroup, config.fadeInDuration));
+        }
+
+        private IEnumerator FadeCanvasGroupOut(TransitionConfig config)
+        {
+            if (config.needsFade && transitionCanvasGroup != null)
+                yield return StartCoroutine(fadeController.FadeOut(transitionCanvasGroup, config.fadeOutDuration));
         }
     }
 }
