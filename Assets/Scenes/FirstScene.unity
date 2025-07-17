@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 10943986}
   - component: {fileID: 10943989}
   - component: {fileID: 10943988}
+  - component: {fileID: 10943990}
   m_Layer: 5
   m_Name: TransitionImage
   m_TagString: Untagged
@@ -198,6 +199,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10943985}
   m_CullTransparentMesh: 1
+--- !u!225 &10943990
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10943985}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &99717323
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,10 +330,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionAnimator: {fileID: 99717330}
-  numberOfTransitions: 3
+  transitions:
+  - transitionIndex: 0
+    fadeOutDuration: 1
+    fadeInDuration: 1
+    needsFade: 0
+  - transitionIndex: 1
+    fadeOutDuration: 1
+    fadeInDuration: 1
+    needsFade: 0
+  - transitionIndex: 2
+    fadeOutDuration: 1
+    fadeInDuration: 1
+    needsFade: 1
   fadeImage: {fileID: 771741392}
-  fadeOutDuration: 0.5
-  fadeInDuration: 0.5
+  transitionCanvasGroup: {fileID: 10943990}
 --- !u!212 &99717329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -539,7 +563,7 @@ MonoBehaviour:
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
