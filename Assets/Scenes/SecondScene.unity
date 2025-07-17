@@ -356,17 +356,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 451af6410527f6d438b077a7cfdf18ed, type: 3}
---- !u!114 &316712029 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5443814351197577945, guid: 451af6410527f6d438b077a7cfdf18ed, type: 3}
-  m_PrefabInstance: {fileID: 316712028}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6d53d2cb6895604fa0d7146b028a46c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &493213476
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,6 +502,7 @@ GameObject:
   - component: {fileID: 720189602}
   - component: {fileID: 720189601}
   - component: {fileID: 720189600}
+  - component: {fileID: 720189603}
   m_Layer: 5
   m_Name: Return Button
   m_TagString: Untagged
@@ -584,9 +574,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 316712029}
-        m_TargetAssemblyTypeName: Managers.SceneTransitionManager, Assembly-CSharp
-        m_MethodName: StartSceneTransition
+      - m_Target: {fileID: 720189603}
+        m_TargetAssemblyTypeName: Utils.TransitionButtonAction, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -634,6 +624,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720189598}
   m_CullTransparentMesh: 1
+--- !u!114 &720189603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720189598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa6fc76ebbe48c44a5f88264b13c4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &795387274
 GameObject:
   m_ObjectHideFlags: 0
