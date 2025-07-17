@@ -14,10 +14,20 @@ namespace Managers
         // Number of transitions that can be performed, we choose a random one each time
         public int numberOfTransitions;
 
+        // Fading Image, used to cover loading
+        public UnityEngine.UI.Image fadeImage;
+
+        // Duration of the fade effect
+        public float fadeOutDuration;
+
+        // Duration of the fade effect
+        public float fadeInDuration;
+
         // Singleton instance
         public static SceneTransitionManager Instance { get; private set; }
 
         private bool isTransitioning = false;
+        private bool canLoadNextScene = false;
 
         private void Awake()
         {
@@ -43,9 +53,23 @@ namespace Managers
             StartCoroutine(TransitionToScene(sceneName));
         }
 
+        /// <summary>
+        /// To be called by the animation event when we can load the next scene. (For some transitions we load when the screen is entirely covered by the animation)
+        /// </summary>
+        public void LoadNextScene()
+        {
+            canLoadNextScene = true;
+        }
+
         private IEnumerator TransitionToScene(string sceneName)
         {
             isTransitioning = true;
+
+            // Start fade out effect (since we want to make the black screen appear, we fade in the fadeImage)
+            if (fadeImage != null)
+            {
+                yield return StartCoroutine(new Utils.FadeController().FadeIn(fadeImage, fadeOutDuration));
+            }
 
             if (Random.value < 0.33f)
             {
@@ -72,9 +96,25 @@ namespace Managers
             transitionAnimator.SetTrigger("StartTransition");
 
             // Wait for the transition animation to finish
-            yield return new WaitForSeconds(transitionAnimator.GetCurrentAnimatorStateInfo(0).length);
+            while (!canLoadNextScene)
+            {
+                yield return null;
+            }
+            canLoadNextScene = false; // Reset for the next transition
 
             asyncLoad.allowSceneActivation = true;
+
+            // Wait for the scene to activate
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
+            // Start fade in effect (instantly start the transition)
+            if (fadeImage != null)
+            {
+                yield return StartCoroutine(new Utils.FadeController().FadeOut(fadeImage, fadeInDuration));
+            }
 
             isTransitioning = false;
         }
