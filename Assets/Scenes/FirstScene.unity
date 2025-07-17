@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 10943988}
   - component: {fileID: 10943987}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TransitionImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -171,7 +171,7 @@ Animator:
   m_GameObject: {fileID: 10943985}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7d638ac5c11312f4ca27ca889deeead3, type: 2}
+  m_Controller: {fileID: 9100000, guid: f4832a7f7c539484085b1df0563eb3de, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: 1618341613}
   - component: {fileID: 1618341617}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,5 +1002,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1618341616}
-  - {fileID: 1160938820}
   - {fileID: 99717327}
+  - {fileID: 1160938820}
